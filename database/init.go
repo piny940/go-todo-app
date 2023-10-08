@@ -3,6 +3,8 @@ package database
 import (
 	"database/sql"
 	"go-todo-app/config"
+
+	_ "github.com/lib/pq"
 )
 
 var db *sql.DB
