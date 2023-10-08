@@ -1,3 +1,6 @@
 db:
   provider: postgres
   url: localhost:5432
+server:
+  version: v1
+  port: 8080
