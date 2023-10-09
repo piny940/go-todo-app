@@ -8,7 +8,7 @@ import (
 type ITodoUseCase interface {
 	List() ([]*domain.Todo, error)
 	Create(title domain.TodoTitle) (*domain.Todo, error)
-	// Complete(id domain.TodoID) (*domain.Todo, error)
+	Complete(id domain.TodoID) (*domain.Todo, error)
 }
 
 type todoUseCase struct {

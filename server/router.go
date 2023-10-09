@@ -19,6 +19,7 @@ func NewRouter() (*echo.Echo, error) {
 		todos := version.Group("/todos")
 		todosController := controllers.NewTodosController()
 		todos.GET("", todosController.Index)
+		todos.POST("/:id/complete", todosController.Complete)
 	}
 
 	return router, nil
