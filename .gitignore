@@ -92,3 +92,10 @@ Temporary Items
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,linux,visualstudiocode,go
+
+# 環境変数
+.env.*
+!.env.sample
+
+# build結果
+go-todo-app

@@ -1,10 +1,16 @@
 package config
 
-import "github.com/spf13/viper"
+import (
+	"fmt"
+
+	"github.com/joho/godotenv"
+	"github.com/spf13/viper"
+)
 
 var c *viper.Viper
 
 func Init(env string) {
+	godotenv.Load(fmt.Sprintf(".env.%s", env))
 	c = viper.New()
 	c.SetConfigFile("yaml")
 	c.SetConfigName(env)
