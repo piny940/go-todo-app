@@ -4,6 +4,7 @@ import (
 	"flag"
 	"go-todo-app/config"
 	"go-todo-app/database"
+	"go-todo-app/registry"
 	"go-todo-app/server"
 )
 
@@ -13,6 +14,7 @@ func main() {
 
 	config.Init(*env)
 	database.Init()
+	registry.Init(database.GetDB())
 	defer database.Close()
 
 	if err := server.Init(); err != nil {
