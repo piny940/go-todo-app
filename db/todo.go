@@ -22,7 +22,7 @@ func (t *todoRepo) List() ([]*domain.Todo, error) {
 	}
 	defer rows.Close()
 
-	var todos []*domain.Todo
+	todos := make([]*domain.Todo, 0)
 	for rows.Next() {
 		var todo domain.Todo
 		if err := rows.Scan(&todo.ID, &todo.Title, &todo.Status); err != nil {
