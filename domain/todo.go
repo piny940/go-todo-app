@@ -18,3 +18,10 @@ type Todo struct {
 	CreatedAt time.Time  `json:"created_at"`
 	UpdatedAt time.Time  `json:"updated_at"`
 }
+
+func NewTodo(title TodoTitle) *Todo {
+	return &Todo{
+		Title:  title,
+		Status: Active,
+	}
+}

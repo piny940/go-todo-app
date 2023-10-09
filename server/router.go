@@ -15,6 +15,11 @@ func NewRouter() (*echo.Echo, error) {
 
 	homesController := controllers.NewHomesController()
 	version.GET("/", homesController.Index)
+	{
+		todos := version.Group("/todos")
+		todosController := controllers.NewTodosController()
+		todos.GET("", todosController.Index)
+	}
 
 	return router, nil
 }

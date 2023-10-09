@@ -1,6 +1,6 @@
 db:
   provider: postgres
-  url: localhost:5432
+  dsn: host=localhost port=5432 dbname=go_todo_app_development sslmode=disable
 server:
   version: v1
   port: 8080
