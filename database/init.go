@@ -7,21 +7,25 @@ import (
 	_ "github.com/lib/pq"
 )
 
-var db *sql.DB
+type DB struct {
+	Client *sql.DB
+}
+
+var db *DB
 
 func Init() {
 	c := config.GetConfig()
-	var err error
-	db, err = sql.Open(c.GetString("db.provider"), c.GetString("db.url"))
+	client, err := sql.Open(c.GetString("db.provider"), c.GetString("db.url"))
 	if err != nil {
 		panic(err)
 	}
+	db = &DB{Client: client}
 }
 
-func GetDB() *sql.DB {
+func GetDB() *DB {
 	return db
 }
 
 func Close() {
-	db.Close()
+	db.Client.Close()
 }
