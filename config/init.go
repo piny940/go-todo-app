@@ -1,17 +1,25 @@
 package config
 
-import "github.com/spf13/viper"
+import (
+	"fmt"
+	"os"
+
+	"github.com/spf13/viper"
+)
 
 var c *viper.Viper
 
 func Init(env string) {
 	c = viper.New()
-	c.SetConfigFile("yaml")
-	c.SetConfigName(env)
-	c.AddConfigPath("config/environments/")
-	if err := c.ReadInConfig(); err != nil {
+	filename := fmt.Sprintf("config/environments/%s.yaml", env)
+	file, err := os.Open(filename)
+	if err != nil {
 		panic(err)
 	}
+	defer file.Close()
+
+	c.SetConfigType("yaml")
+
 }
 
 func GetConfig() *viper.Viper {
