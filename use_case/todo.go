@@ -5,22 +5,29 @@ import (
 	"go-todo-app/domain/repository"
 )
 
+type TodoUseCase interface {
+	List() ([]*domain.Todo, error)
+	Create(title domain.TodoTitle) (*domain.Todo, error)
+	// Complete(id domain.TodoID) (*domain.Todo, error)
+}
+
 type todoUseCase struct {
 	todoRepo repository.TodoRepo
 }
 
-func NewTodoUseCase(todoRepo repository.TodoRepo) *todoUseCase {
+func NewTodoUseCase(todoRepo repository.TodoRepo) TodoUseCase {
 	return &todoUseCase{todoRepo: todoRepo}
 }
 
-func (t *todoUseCase) Index() ([]*domain.Todo, error) {
-	return t.todoRepo.Index()
+func (t *todoUseCase) List() ([]*domain.Todo, error) {
+	return t.todoRepo.List()
 }
 
-func (t *todoUseCase) Create(title string) (*domain.Todo, error) {
-	return t.todoRepo.Create(title)
+func (t *todoUseCase) Create(title domain.TodoTitle) (*domain.Todo, error) {
+	todo := domain.NewTodo(title)
+	return t.todoRepo.Create(todo.Title, todo.Status)
 }
 
-func (t *todoUseCase) Update(id int, status domain.TodoStatus) (*domain.Todo, error) {
-	return t.todoRepo.Update(id, status)
-}
+// func (t *todoUseCase) Update(id domain.TodoID) (*domain.Todo, error) {
+// 	return t.todoRepo.Update(id, status)
+// }
