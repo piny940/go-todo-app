@@ -25,7 +25,7 @@ func (t *todoRepo) List() ([]*domain.Todo, error) {
 	todos := make([]*domain.Todo, 0)
 	for rows.Next() {
 		var todo domain.Todo
-		if err := rows.Scan(&todo.ID, &todo.Title, &todo.Status); err != nil {
+		if err := rows.Scan(&todo.ID, &todo.Title, &todo.Status, &todo.CreatedAt, &todo.UpdatedAt); err != nil {
 			return nil, err
 		}
 		todos = append(todos, &todo)
