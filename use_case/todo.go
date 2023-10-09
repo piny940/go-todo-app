@@ -28,6 +28,11 @@ func (t *todoUseCase) Create(title domain.TodoTitle) (*domain.Todo, error) {
 	return t.todoRepo.Create(todo.Title, todo.Status)
 }
 
-// func (t *todoUseCase) Update(id domain.TodoID) (*domain.Todo, error) {
-// 	return t.todoRepo.Update(id, status)
-// }
+func (t *todoUseCase) Complete(id domain.TodoID) (*domain.Todo, error) {
+	todo, err := t.todoRepo.FindById(id)
+	if err != nil {
+		return nil, err
+	}
+	todo.Complete()
+	return t.todoRepo.Update(todo.ID, todo.Title, todo.Status)
+}
