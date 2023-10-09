@@ -15,7 +15,7 @@ var db *DB
 
 func Init() {
 	c := config.GetConfig()
-	client, err := sql.Open(c.GetString("db.provider"), c.GetString("db.url"))
+	client, err := sql.Open(c.GetString("db.provider"), c.GetString("db.dsn"))
 	if err != nil {
 		panic(err)
 	}
