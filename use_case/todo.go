@@ -5,17 +5,17 @@ import (
 	"go-todo-app/domain/repository"
 )
 
-type TodoUseCase interface {
+type ITodoUseCase interface {
 	List() ([]*domain.Todo, error)
 	Create(title domain.TodoTitle) (*domain.Todo, error)
 	// Complete(id domain.TodoID) (*domain.Todo, error)
 }
 
 type todoUseCase struct {
-	todoRepo repository.TodoRepo
+	todoRepo repository.ITodoRepo
 }
 
-func NewTodoUseCase(todoRepo repository.TodoRepo) TodoUseCase {
+func NewTodoUseCase(todoRepo repository.ITodoRepo) ITodoUseCase {
 	return &todoUseCase{todoRepo: todoRepo}
 }
 

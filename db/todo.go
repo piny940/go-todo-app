@@ -9,7 +9,7 @@ type todoRepo struct {
 	db *DB
 }
 
-func NewTodoRepo(db *DB) repository.TodoRepo {
+func NewTodoRepo(db *DB) repository.ITodoRepo {
 	return &todoRepo{
 		db: db,
 	}
