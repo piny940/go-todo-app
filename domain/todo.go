@@ -25,3 +25,7 @@ func NewTodo(title TodoTitle) *Todo {
 		Status: Active,
 	}
 }
+
+func (t *Todo) Complete() {
+	t.Status = Completed
+}
