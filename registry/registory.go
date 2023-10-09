@@ -1,7 +1,7 @@
 package registry
 
 import (
-	"go-todo-app/database"
+	"go-todo-app/db"
 	"go-todo-app/domain/repository"
 	"go-todo-app/use_case"
 )
@@ -12,12 +12,12 @@ type Registry interface {
 }
 
 type registry struct {
-	db *database.DB
+	db *db.DB
 }
 
 var reg Registry
 
-func Init(db *database.DB) {
+func Init(db *db.DB) {
 	reg = &registry{db: db}
 }
 
@@ -26,7 +26,7 @@ func GetRegistry() Registry {
 }
 
 func (r *registry) TodoRepo() repository.TodoRepo {
-	return database.NewTodoRepo(r.db)
+	return db.NewTodoRepo(r.db)
 }
 
 func (r *registry) TodoUseCase() use_case.TodoUseCase {
