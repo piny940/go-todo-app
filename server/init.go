@@ -1,13 +1,20 @@
 package server
 
-import "go-todo-app/config"
+import (
+	"go-todo-app/config"
+
+	"github.com/labstack/echo/v4/middleware"
+)
 
 func Init() error {
 	c := config.GetConfig()
-	r, err := NewRouter()
+	router, err := NewRouter()
 	if err != nil {
 		return err
 	}
-	r.Logger.Fatal(r.Start(":" + c.GetString("server.port")))
+	router.Use(middleware.Logger())
+	router.Use(middleware.Recover())
+
+	router.Logger.Fatal(router.Start(":" + c.GetString("server.port")))
 	return nil
 }
