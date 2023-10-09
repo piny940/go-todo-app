@@ -3,7 +3,7 @@ package repository
 import "go-todo-app/domain"
 
 type TodoRepo interface {
-	Index() ([]*domain.Todo, error)
-	Create(title string) (*domain.Todo, error)
-	Update(id int, status domain.TodoStatus) (*domain.Todo, error)
+	List() ([]*domain.Todo, error)
+	Create(title domain.TodoTitle, status domain.TodoStatus) (*domain.Todo, error)
+	Update(id domain.TodoID, title domain.TodoTitle, status domain.TodoStatus) (*domain.Todo, error)
 }
