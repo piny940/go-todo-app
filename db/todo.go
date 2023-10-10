@@ -16,7 +16,7 @@ func NewTodoRepo(db *DB) repository.ITodoRepo {
 }
 
 func (t *todoRepo) List() ([]*domain.Todo, error) {
-	rows, err := t.db.Client.Query("SELECT * FROM todos")
+	rows, err := t.db.Client.Query("select * from todos")
 	if err != nil {
 		return nil, err
 	}
@@ -36,7 +36,7 @@ func (t *todoRepo) List() ([]*domain.Todo, error) {
 func (t *todoRepo) Create(title domain.TodoTitle, status domain.TodoStatus) (*domain.Todo, error) {
 	var todo domain.Todo
 	if err := t.db.Client.QueryRow(
-		"INSERT INTO todos (title, status) VALUES ($1, $2) RETURNING *",
+		"insert into todos (title, status) values ($1, $2) returning *",
 		title, status,
 	).Scan(
 		&todo.ID, &todo.Title, &todo.Status, &todo.CreatedAt, &todo.UpdatedAt,
@@ -49,7 +49,7 @@ func (t *todoRepo) Create(title domain.TodoTitle, status domain.TodoStatus) (*do
 func (t *todoRepo) Update(id domain.TodoID, title domain.TodoTitle, status domain.TodoStatus) (*domain.Todo, error) {
 	var todo domain.Todo
 	if err := t.db.Client.QueryRow(
-		"UPDATE todos SET title = $1, status = $2 WHERE id = $3 RETURNING *",
+		"update todos set title = $1, status = $2 where id = $3 returning *",
 		title, status, id,
 	).Scan(
 		&todo.ID, &todo.Title, &todo.Status, &todo.CreatedAt, &todo.UpdatedAt,
@@ -62,7 +62,7 @@ func (t *todoRepo) Update(id domain.TodoID, title domain.TodoTitle, status domai
 func (t *todoRepo) FindById(id domain.TodoID) (*domain.Todo, error) {
 	var todo domain.Todo
 	if err := t.db.Client.QueryRow(
-		"SELECT * FROM todos WHERE id = $1", id,
+		"select * from todos where id = $1", id,
 	).Scan(
 		&todo.ID, &todo.Title, &todo.Status, &todo.CreatedAt, &todo.UpdatedAt,
 	); err != nil {
