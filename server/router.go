@@ -24,6 +24,7 @@ func NewRouter() (*echo.Echo, error) {
 	{
 		users := version.Group("/users")
 		usersController := controllers.NewUsersController()
+		users.GET("", usersController.Index)
 		users.POST("", usersController.Create)
 	}
 

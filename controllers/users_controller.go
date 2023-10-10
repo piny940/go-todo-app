@@ -14,6 +14,17 @@ func NewUsersController() *usersController {
 	return &usersController{}
 }
 
+func (u *usersController) Index(c echo.Context) error {
+	registry := registry.GetRegistry()
+	users, err := registry.UserUseCase().List()
+	if err != nil {
+		return err
+	}
+	return c.JSON(http.StatusOK, echo.Map{
+		"users": users,
+	})
+}
+
 func (u *usersController) Create(c echo.Context) error {
 	registry := registry.GetRegistry()
 	email := c.FormValue("email")
