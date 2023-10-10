@@ -2,7 +2,7 @@ package domain
 
 import "time"
 
-type TodoID int
+type TodoID uint
 type TodoTitle string
 type TodoStatus int
 
@@ -15,6 +15,7 @@ type Todo struct {
 	ID        TodoID     `json:"id"`
 	Title     TodoTitle  `json:"title"`
 	Status    TodoStatus `json:"status"`
+	UserID    UserID     `json:"user_id"`
 	CreatedAt time.Time  `json:"created_at"`
 	UpdatedAt time.Time  `json:"updated_at"`
 }
