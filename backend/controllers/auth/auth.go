@@ -8,7 +8,6 @@ import (
 
 var sessionsOptions = &sessions.Options{
 	Path:     "/",
-	MaxAge:   86400 * 7,
 	HttpOnly: true,
 }
 
@@ -17,4 +16,9 @@ func setSession(c echo.Context, key string, value interface{}) {
 	session.Options = sessionsOptions
 	session.Values[key] = value
 	session.Save(c.Request(), c.Response())
+}
+
+func getSession(c echo.Context, key string) interface{} {
+	session, _ := session.Get("session", c)
+	return session.Values[key]
 }
