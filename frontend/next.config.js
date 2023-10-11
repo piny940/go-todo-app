@@ -2,7 +2,7 @@
 
 const BACKEND =
   process.env.NODE_ENV === 'development'
-    ? 'http://localhost:3000'
+    ? 'https://song_list.piny940.com'
     : 'https://example.com'
 
 const nextConfig = {
@@ -15,7 +15,7 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: `${BACKEND}/:path*`,
+        destination: `${BACKEND}/api/:path*`,
       },
     ]
   },
