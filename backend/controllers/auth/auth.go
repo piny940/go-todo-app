@@ -25,18 +25,19 @@ func getSession(c echo.Context, key string) interface{} {
 	return session.Values[key]
 }
 
-func Login(c echo.Context, user domain.User) {
-	setSession(c, "user", user)
+func Login(c echo.Context, user *domain.User) {
+	setSession(c, "user", *user)
 }
 
 func Logout(c echo.Context) {
 	setSession(c, "user", nil)
 }
 
-func CurrentUser(c echo.Context) (domain.User, error) {
+func CurrentUser(c echo.Context) (*domain.User, error) {
 	user := getSession(c, "user")
 	if user == nil {
-		return domain.User{}, echo.ErrUnauthorized
+		return nil, echo.ErrUnauthorized
 	}
-	return user.(domain.User), nil
+	u := user.(domain.User)
+	return &u, nil
 }
