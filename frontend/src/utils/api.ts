@@ -17,9 +17,9 @@ export const fetchApi = async (params: {
 }) => {
   const response = await fetch(`/api${params.url}`, {
     method: params.method,
-    headers: {
-      'X-CSRF-Token': await getToken(),
-    },
+    // headers: {
+    //   'X-CSRF-Token': await getToken(),
+    // },
     body: params.method === 'GET' ? null : serialize(params.data),
     credentials: 'include',
   })
@@ -51,6 +51,14 @@ export const updateData = async (params: {
     url: params.url,
     method: 'PATCH',
     data: params.scope ? { [params.scope]: params.data } : params.data,
+  })
+  return await response.json()
+}
+
+export const getTodos = async () => {
+  const response = await fetchApi({
+    url: '/todos',
+    method: 'GET',
   })
   return await response.json()
 }
