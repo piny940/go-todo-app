@@ -1,6 +1,8 @@
 package auth
 
 import (
+	"go-todo-app/domain"
+
 	"github.com/gorilla/sessions"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
@@ -21,4 +23,20 @@ func setSession(c echo.Context, key string, value interface{}) {
 func getSession(c echo.Context, key string) interface{} {
 	session, _ := session.Get("session", c)
 	return session.Values[key]
+}
+
+func Login(c echo.Context, user domain.User) {
+	setSession(c, "user", user)
+}
+
+func Logout(c echo.Context) {
+	setSession(c, "user", nil)
+}
+
+func CurrentUser(c echo.Context) (domain.User, error) {
+	user := getSession(c, "user")
+	if user == nil {
+		return domain.User{}, echo.ErrUnauthorized
+	}
+	return user.(domain.User), nil
 }
