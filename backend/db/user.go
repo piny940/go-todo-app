@@ -40,37 +40,42 @@ func (u *userRepo) List() ([]*domain.User, error) {
 		); err != nil {
 			return nil, err
 		}
-		password := domain.UserPassword{
-			HashedPassword: domain.UserHashedPassword(userTable.EncryptedPassword),
-		}
-		user := domain.User{
-			ID:        domain.UserID(userTable.ID),
-			Email:     domain.UserEmail(userTable.Email),
-			Password:  password,
-			CreatedAt: userTable.CreatedAt,
-			UpdatedAt: userTable.UpdatedAt,
-		}
-		users = append(users, &user)
+
+		users = append(users, userTable.toDomain())
 	}
 
 	return users, nil
 }
 
 func (u *userRepo) Create(email domain.UserEmail, password domain.UserHashedPassword) (*domain.User, error) {
-	var user domain.User
+	var userTable UserTable
 	if err := u.db.Client.QueryRow(
 		"insert into users (email, password) values ($1, $2) returning *",
 		email,
 		password,
 	).Scan(
-		&user.ID,
-		&user.Email,
-		&user.EncryptedPassword,
-		&user.CreatedAt,
-		&user.UpdatedAt,
+		&userTable.ID,
+		&userTable.Email,
+		&userTable.EncryptedPassword,
+		&userTable.CreatedAt,
+		&userTable.UpdatedAt,
 	); err != nil {
 		return nil, err
 	}
 
-	return &user, nil
+	return userTable.toDomain(), nil
+}
+
+func (userTable *UserTable) toDomain() *domain.User {
+	password := domain.UserPassword{
+		HashedPassword: domain.UserHashedPassword(userTable.EncryptedPassword),
+	}
+	user := domain.User{
+		ID:        domain.UserID(userTable.ID),
+		Email:     domain.UserEmail(userTable.Email),
+		Password:  password,
+		CreatedAt: userTable.CreatedAt,
+		UpdatedAt: userTable.UpdatedAt,
+	}
+	return &user
 }
