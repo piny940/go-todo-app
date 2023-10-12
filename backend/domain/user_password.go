@@ -10,7 +10,7 @@ type UserPassword struct {
 }
 
 func NewUserPassword(rawPassword UserRawPassword) (*UserPassword, error) {
-	hash, err := bcrypt.GenerateFromPassword([]byte(string(rawPassword)), bcrypt.DefaultCost)
+	hash, err := encryptPassword(string(rawPassword))
 	if err != nil {
 		return nil, err
 	}
@@ -19,6 +19,15 @@ func NewUserPassword(rawPassword UserRawPassword) (*UserPassword, error) {
 }
 
 func (p *UserPassword) Check(rawPassword UserRawPassword) bool {
-	err := bcrypt.CompareHashAndPassword([]byte(p.HashedPassword), []byte(rawPassword))
+	return comparePassword(string(p.HashedPassword), string(rawPassword))
+}
+
+func encryptPassword(password string) (string, error) {
+	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	return string(hash), err
+}
+
+func comparePassword(hashedPassword, password string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
 	return err == nil
 }
