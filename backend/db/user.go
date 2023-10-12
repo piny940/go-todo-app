@@ -1,6 +1,9 @@
 package db
 
-import "go-todo-app/domain"
+import (
+	"go-todo-app/domain"
+	"time"
+)
 
 type userRepo struct {
 	db *DB
@@ -8,6 +11,14 @@ type userRepo struct {
 
 func NewUserRepo(db *DB) *userRepo {
 	return &userRepo{db: db}
+}
+
+type UserTable struct {
+	ID                uint      `json:"id"`
+	Email             string    `json:"email"`
+	EncryptedPassword string    `json:"-"`
+	CreatedAt         time.Time `json:"created_at"`
+	UpdatedAt         time.Time `json:"updated_at"`
 }
 
 func (u *userRepo) List() ([]*domain.User, error) {
@@ -19,15 +30,25 @@ func (u *userRepo) List() ([]*domain.User, error) {
 	defer rows.Close()
 
 	for rows.Next() {
-		var user domain.User
+		var userTable UserTable
 		if err := rows.Scan(
-			&user.ID,
-			&user.Email,
-			&user.EncryptedPassword,
-			&user.CreatedAt,
-			&user.UpdatedAt,
+			&userTable.ID,
+			&userTable.Email,
+			&userTable.EncryptedPassword,
+			&userTable.CreatedAt,
+			&userTable.UpdatedAt,
 		); err != nil {
 			return nil, err
+		}
+		password := domain.UserPassword{
+			HashedPassword: domain.UserHashedPassword(userTable.EncryptedPassword),
+		}
+		user := domain.User{
+			ID:        domain.UserID(userTable.ID),
+			Email:     domain.UserEmail(userTable.Email),
+			Password:  password,
+			CreatedAt: userTable.CreatedAt,
+			UpdatedAt: userTable.UpdatedAt,
 		}
 		users = append(users, &user)
 	}
@@ -35,7 +56,7 @@ func (u *userRepo) List() ([]*domain.User, error) {
 	return users, nil
 }
 
-func (u *userRepo) Create(email domain.UserEmail, password domain.UserEncryptedPassword) (*domain.User, error) {
+func (u *userRepo) Create(email domain.UserEmail, password domain.UserHashedPassword) (*domain.User, error) {
 	var user domain.User
 	if err := u.db.Client.QueryRow(
 		"insert into users (email, password) values ($1, $2) returning *",
