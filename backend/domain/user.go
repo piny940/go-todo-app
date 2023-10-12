@@ -1,30 +1,23 @@
 package domain
 
 import (
-	"go-todo-app/lib"
 	"time"
 )
 
 type UserID uint
 type UserEmail string
-type UserRawPassword string
-type UserEncryptedPassword string
 
 type User struct {
-	ID                UserID                `json:"id"`
-	Email             UserEmail             `json:"email"`
-	EncryptedPassword UserEncryptedPassword `json:"password"`
-	CreatedAt         time.Time             `json:"created_at"`
-	UpdatedAt         time.Time             `json:"updated_at"`
+	ID        UserID       `json:"id"`
+	Email     UserEmail    `json:"email"`
+	Password  UserPassword `json:"-"`
+	CreatedAt time.Time    `json:"created_at"`
+	UpdatedAt time.Time    `json:"updated_at"`
 }
 
-func NewUser(email UserEmail, rawPassword UserRawPassword) (*User, error) {
-	encryptedPassword, err := lib.EncryptPassword(string(rawPassword))
-	if err != nil {
-		return nil, err
-	}
+func NewUser(email UserEmail, password UserPassword) (*User, error) {
 	return &User{
-		Email:             email,
-		EncryptedPassword: UserEncryptedPassword(encryptedPassword),
+		Email:    email,
+		Password: password,
 	}, nil
 }
