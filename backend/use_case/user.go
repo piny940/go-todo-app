@@ -22,10 +22,14 @@ func (u *userUseCase) List() ([]*domain.User, error) {
 	return u.userRepo.List()
 }
 
-func (u *userUseCase) SignUp(email domain.UserEmail, password domain.UserRawPassword) (*domain.User, error) {
+func (u *userUseCase) SignUp(email domain.UserEmail, rawPassword domain.UserRawPassword) (*domain.User, error) {
+	password, err := domain.NewUserPassword(rawPassword)
+	if err != nil {
+		return nil, err
+	}
 	user, err := domain.NewUser(email, password)
 	if err != nil {
 		return nil, err
 	}
-	return u.userRepo.Create(user.Email, user.EncryptedPassword)
+	return u.userRepo.Create(user.Email, user.Password.HashedPassword)
 }
