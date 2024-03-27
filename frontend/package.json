@@ -18,7 +18,7 @@
     "object-to-formdata": "^4.5.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-hook-form": "^7.51.1",
+    "react-hook-form": "^7.51.2",
     "sharp": "^0.33.3",
     "styled-components": "^5.3.9",
     "swr": "^2.2.5"
