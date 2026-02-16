@@ -14,13 +14,12 @@ require (
 	github.com/go-viper/mapstructure/v2 v2.4.0 // indirect
 	github.com/gorilla/context v1.1.2 // indirect
 	github.com/gorilla/securecookie v1.1.2 // indirect
-	github.com/labstack/echo/v5 v5.0.0-20260118161441-9500f2745481 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
 )
 
 require (
 	github.com/fsnotify/fsnotify v1.9.0 // indirect
-	github.com/labstack/echo-contrib v0.50.0
+	github.com/labstack/echo-contrib v0.50.1
 	github.com/labstack/gommon v0.4.2 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
