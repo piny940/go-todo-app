@@ -5,7 +5,7 @@ go 1.25.0
 require (
 	github.com/gorilla/sessions v1.4.0
 	github.com/joho/godotenv v1.5.1
-	github.com/labstack/echo/v4 v4.15.0
+	github.com/labstack/echo/v4 v4.15.1
 	github.com/lib/pq v1.11.2
 	github.com/spf13/viper v1.21.0
 )
